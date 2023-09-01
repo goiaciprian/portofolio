@@ -18,6 +18,14 @@
     }
   },
   "targetDefaults": {
+    "preview": {
+      "executor": "@nx/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "my-app:build",
+        "port": 4200
+      }
+    },
     "build": {
       "dependsOn": [
         "^build"
@@ -36,7 +44,8 @@
     "test": {
       "inputs": [
         "default",
-        "^production"
+        "^production",
+        "{workspaceRoot}/jest.preset.js"
       ]
     },
     "lint": {
@@ -56,7 +65,10 @@
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/.eslintrc.json"
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/src/test-setup.[jt]s",
+      "!{projectRoot}/test-setup.[jt]s"
     ],
     "sharedGlobals": []
   },
@@ -73,7 +85,8 @@
       },
       "library": {
         "style": "css",
-        "linter": "eslint"
+        "linter": "eslint",
+        "unitTestRunner": "jest"
       }
     }
   },
