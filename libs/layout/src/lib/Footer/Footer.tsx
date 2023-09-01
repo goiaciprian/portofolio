@@ -82,6 +82,7 @@ export function Footer({ onElementClick }: { onElementClick: (() => void | undef
               filter: `drop-shadow(0 0 15px ${moonstone})`
             }}
           />
+          <Text>Disclaimer: Work in progress</Text>
         </Box>
       </Box>
     </Section>
