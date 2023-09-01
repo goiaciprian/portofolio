@@ -5,9 +5,15 @@ import { LinkText } from '../Header/Header';
 import { SectionEnum } from '@models';
 import { BiLogoGithub, BiLogoLinkedinSquare } from 'react-icons/bi';
 import { moonstone } from '../theme';
+import { TbBrandVercel } from 'react-icons/tb';
+import { Icon } from '@chakra-ui/icons';
 
 export function Footer({ onElementClick }: { onElementClick: (() => void | undefined)[] }) {
   const [hoveredSection, setHoveredSection] = React.useState<SectionEnum | null>(null);
+
+  function sendToVercel() {
+    window.open('https://vercel.com', '_blank', 'noopener,noreferrer');
+  }
 
   return (
     <Section height={'25vh'}>
@@ -19,7 +25,6 @@ export function Footer({ onElementClick }: { onElementClick: (() => void | undef
           width: '100%',
           alignItems: 'center'
         }}>
-        {/*<Box sx={{ alignSelf: 'center' }}></Box>*/}
         <Box sx={{ display: 'flex', justifyContent: 'space-evenly', margin: '5vh', width: '30%' }}>
           <LinkText
             activesection={hoveredSection === SectionEnum.About}
@@ -64,6 +69,19 @@ export function Footer({ onElementClick }: { onElementClick: (() => void | undef
             }}>
             <BiLogoLinkedinSquare size={40} />
           </Text>
+        </Box>
+        <Box sx={{ display: 'flex', height: '100%', flexWrap: 'wrap', alignItems: 'center' }}>
+          <Text sx={{ paddingRight: '1rem' }}>Powered by</Text>
+          <Icon
+            onClick={sendToVercel}
+            as={TbBrandVercel}
+            fontSize={30}
+            sx={{ cursor: 'pointer' }}
+            _hover={{
+              color: `${moonstone}`,
+              filter: `drop-shadow(0 0 15px ${moonstone})`
+            }}
+          />
         </Box>
       </Box>
     </Section>
