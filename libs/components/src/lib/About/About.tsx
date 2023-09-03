@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
 import React, { MutableRefObject } from 'react';
 import { moonstone, Section } from '@layout';
-import { Box, Button, Text } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import MoreModal from '../MoreModal/MoreModal';
+import QueryText from '../QueryText/QueryText';
+import QueryButton from '../QueryButton/QueryButton';
 
 const StyledAbout = styled.div`
   display: flex;
@@ -11,6 +13,9 @@ const StyledAbout = styled.div`
   flex-direction: column;
   gap: 10vh;
   height: 100%;
+  @media (max-width: 1200px) {
+    padding: 3vh;
+  }
 `;
 
 const moreAboutMe = [
@@ -27,7 +32,7 @@ export const About = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((pro
       <Section ref={ref} scrollMarginTop={'10vh'}>
         <StyledAbout>
           <Box>
-            <Text fontSize={25} lineHeight={2.5}>
+            <QueryText fontSizeBig={25} fontSizeSmall={10} lineHeight={2.5}>
               Hey there! I'm a 23-year-old programmer hailing from the vibrant land of Romania. For
               the past 6 years, I've been immersed in the world of coding. I've spent time at
               companies like Trimble and Ensemble Software, as well as 2 years as a full stack
@@ -35,18 +40,20 @@ export const About = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((pro
               electrical engineering and computer science. Curiosity drives me—I'm always eager to
               learn and discuss new ideas. Beyond tech, I'm a huge fan of both movies and TV series.
               The art of cinematography never ceases to amaze me.
-            </Text>
+            </QueryText>
           </Box>
-          <Button
+          <QueryButton
+            fontSizeBig={undefined}
+            fontSizeSmall={10}
             variant={'moonstone'}
             sx={{
-              maxWidth: '20%',
+              maxWidth: 'fit-content',
               alignSelf: 'center',
               width: '100%'
             }}
             onClick={() => modalRef.current?.onOpen()}>
             More about me
-          </Button>
+          </QueryButton>
         </StyledAbout>
       </Section>
       <MoreModal
