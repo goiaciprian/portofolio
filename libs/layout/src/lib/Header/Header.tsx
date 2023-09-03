@@ -18,7 +18,7 @@ const StyledHeader = styled.div`
   justify-content: flex-end;
 `;
 
-export const LinkText = styled(Link)<LinkProps & { activesection: boolean }>`
+export const LinkText = styled(Link)<LinkProps & { activesection: boolean; bulletsize?: string }>`
   font-weight: ${(props) => (props.activesection ? 'bold' : '300')};
   font-style: ${(props) => (props.activesection ? 'oblique' : 'normal')};
   font-size: 25px;
@@ -31,8 +31,8 @@ export const LinkText = styled(Link)<LinkProps & { activesection: boolean }>`
   ::after {
     display: ${(props) => (props.activesection ? 'block' : 'none')};
     content: '';
-    width: 10px;
-    height: 10px;
+    width: 5px;
+    height: 5px;
     background-color: ${moonstone};
     border-radius: 100%; /* create a new stacking context */
     position: absolute; //z-index: -1; /* to be below the parent element */
@@ -40,22 +40,29 @@ export const LinkText = styled(Link)<LinkProps & { activesection: boolean }>`
     left: 50%;
     box-shadow: 0 0 20px 2px ${moonstone};
   }
+
+  @media (max-width: 1200px) {
+    font-size: 10px;
+  }
+`;
+
+const QueryBox = styled(Box)`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100%;
+  display: flex;
+  width: 35%;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
 `;
 
 export function Header({ activeSection, onElementClick }: HeaderProps) {
   return (
     <StyledHeader>
-      {/*<Box sx={{ display: 'flex', flexDirection: 'row', height: '100%', alignItems: 'center' }}>*/}
-      {/*<Box sx={{ flex: '0.7' }}></Box>*/}
-      <Box
-        sx={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-evenly',
-          height: '100%',
-          display: 'flex',
-          width: '35%'
-        }}>
+      <QueryBox>
         <LinkText activesection={activeSection === SectionEnum.About} onClick={onElementClick[0]}>
           About me
         </LinkText>
@@ -68,7 +75,7 @@ export function Header({ activeSection, onElementClick }: HeaderProps) {
           Contact
         </LinkText>
         {/*</Box>*/}
-      </Box>
+      </QueryBox>
     </StyledHeader>
   );
 }

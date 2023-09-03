@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Box,
-  Button,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -9,9 +8,10 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text,
   useDisclosure
 } from '@chakra-ui/react';
+import QueryText from '../QueryText/QueryText';
+import QueryButton from '../QueryButton/QueryButton';
 
 export type MoreModalProps = {
   headerText: string;
@@ -44,7 +44,9 @@ export const MoreModal = React.forwardRef<{ onOpen: () => void }, MoreModalProps
         <ModalOverlay />
         <ModalContent maxW={'85vw'}>
           <ModalHeader sx={{ margin: '2vw 2vw 0vw 2vw' }}>
-            <Text fontSize={25}>{props.headerText}</Text>
+            <QueryText fontSizeBig={25} fontSizeSmall={15}>
+              {props.headerText}
+            </QueryText>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody sx={{ margin: '2vw' }}>
@@ -53,17 +55,26 @@ export const MoreModal = React.forwardRef<{ onOpen: () => void }, MoreModalProps
             ) : (
               <Box>
                 {props.text.map((txt, index) => (
-                  <Text key={index} fontSize={20} lineHeight={2} sx={{ marginBottom: '2rem' }}>
+                  <QueryText
+                    key={index}
+                    fontSizeBig={20}
+                    fontSizeSmall={10}
+                    lineHeight={2}
+                    sx={{ marginBottom: '2rem' }}>
                     {txt}
-                  </Text>
+                  </QueryText>
                 ))}
               </Box>
             )}
           </ModalBody>
           <ModalFooter>
-            <Button variant={'moonstone'} onClick={onClose}>
+            <QueryButton
+              fontSizeBig={undefined}
+              fontSizeSmall={10}
+              variant={'moonstone'}
+              onClick={onClose}>
               Close
-            </Button>
+            </QueryButton>
           </ModalFooter>
         </ModalContent>
       </Modal>
