@@ -1,4 +1,10 @@
 
+export * from './lib/QueryButton/QueryButton';
+
+export * from './lib/QueryFormLabel/QueryFormLabel';
+
+export * from './lib/QueryText/QueryText';
+
 export * from './lib/MoreModal/MoreModal';
 export * from './lib/Contact/Contact';
 

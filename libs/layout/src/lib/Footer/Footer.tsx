@@ -7,8 +7,11 @@ import { BiLogoGithub, BiLogoLinkedinSquare } from 'react-icons/bi';
 import { moonstone } from '../theme';
 import { TbBrandVercel } from 'react-icons/tb';
 import { Icon } from '@chakra-ui/icons';
+import { useIsBiggerThan1200 } from '@hooks';
+import { QueryText } from '@components';
 
 export function Footer({ onElementClick }: { onElementClick: (() => void | undefined)[] }) {
+  const isBiggerThan1200 = useIsBiggerThan1200();
   const [hoveredSection, setHoveredSection] = React.useState<SectionEnum | null>(null);
 
   function sendToVercel() {
@@ -25,7 +28,13 @@ export function Footer({ onElementClick }: { onElementClick: (() => void | undef
           width: '100%',
           alignItems: 'center'
         }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-evenly', margin: '5vh', width: '30%' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-evenly',
+            margin: '5vh',
+            width: isBiggerThan1200 ? '30%' : '100%'
+          }}>
           <LinkText
             activesection={hoveredSection === SectionEnum.About}
             onClick={onElementClick[0]}
@@ -57,7 +66,7 @@ export function Footer({ onElementClick }: { onElementClick: (() => void | undef
             _hover={{
               filter: `drop-shadow(0 0 15px ${moonstone})`
             }}>
-            <BiLogoGithub size={40} />
+            <BiLogoGithub size={isBiggerThan1200 ? 40 : 25} />
           </Text>
           <Text
             as='a'
@@ -67,22 +76,26 @@ export function Footer({ onElementClick }: { onElementClick: (() => void | undef
             _hover={{
               filter: `drop-shadow(0 0 15px ${moonstone})`
             }}>
-            <BiLogoLinkedinSquare size={40} />
+            <BiLogoLinkedinSquare size={isBiggerThan1200 ? 40 : 25} />
           </Text>
         </Box>
         <Box sx={{ display: 'flex', height: '100%', flexWrap: 'wrap', alignItems: 'center' }}>
-          <Text sx={{ paddingRight: '1rem' }}>Powered by</Text>
+          <QueryText fontSizeSmall={10} fontSizeBig={undefined} sx={{ paddingRight: '1rem' }}>
+            Powered by
+          </QueryText>
           <Icon
             onClick={sendToVercel}
             as={TbBrandVercel}
-            fontSize={30}
+            fontSize={isBiggerThan1200 ? 30 : 20}
             sx={{ cursor: 'pointer' }}
             _hover={{
               color: `${moonstone}`,
               filter: `drop-shadow(0 0 15px ${moonstone})`
             }}
           />
-          <Text>Disclaimer: Work in progress</Text>
+          <QueryText fontSizeSmall={10} fontSizeBig={undefined}>
+            Disclaimer: Work in progress
+          </QueryText>
         </Box>
       </Box>
     </Section>

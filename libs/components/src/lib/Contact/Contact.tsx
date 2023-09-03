@@ -1,18 +1,14 @@
 import React from 'react';
 import { moonstone, Section, StyledTypeAnimation } from '@layout';
-import {
-  Box,
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  Text,
-  Textarea
-} from '@chakra-ui/react';
+import { Box, FormControl, FormErrorMessage, Input, Textarea } from '@chakra-ui/react';
 import { FieldValues, useForm } from 'react-hook-form';
+import QueryText from '../QueryText/QueryText';
+import { useIsBiggerThan1200 } from '@hooks';
+import QueryFormLabel from '../QueryFormLabel/QueryFormLabel';
+import QueryButton from '../QueryButton/QueryButton';
 
 export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((props, ref) => {
+  const isBiggerThan1200 = useIsBiggerThan1200();
   const {
     handleSubmit,
     register,
@@ -30,7 +26,7 @@ export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((p
         sx={{
           display: 'flex',
           alignItems: 'center',
-          padding: '15vh',
+          padding: isBiggerThan1200 ? '15vh' : '3vh',
           height: '100%',
           flexDirection: 'column',
           gap: '5vh'
@@ -44,13 +40,17 @@ export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((p
             repeat={Infinity}
             speed={25}
           />
-          <Text sx={{ fontSize: '40px', display: 'inline-block', fontWeight: 'bold' }}>
+          <QueryText
+            fontSizeBig={40}
+            fontSizeSmall={20}
+            sx={{ display: 'inline-block', fontWeight: 'bold' }}>
             For Hire
-          </Text>
+          </QueryText>
         </Box>
-        <Text
+        <QueryText
+          fontSizeBig={25}
+          fontSizeSmall={10}
           sx={{
-            fontSize: '25px',
             fontStyle: 'italic'
           }}>
           Thanks for checking me out{' '}
@@ -64,10 +64,18 @@ export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((p
             😉
           </span>
           . If you want to contact me for some work or feedback now is the time
-        </Text>
-        <form style={{ width: '25%', display: 'flex', flexDirection: 'column', gap: '2vh' }}>
+        </QueryText>
+        <form
+          style={{
+            width: isBiggerThan1200 ? '25%' : '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '2vh'
+          }}>
           <FormControl isInvalid={!!errors['name']}>
-            <FormLabel htmlFor='name'>Name</FormLabel>
+            <QueryFormLabel fontSizeSmall={10} fontSizeBig={undefined} htmlFor='name'>
+              Name
+            </QueryFormLabel>
             <Input
               id='name'
               {...register('name', {
@@ -79,7 +87,9 @@ export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((p
             </FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={!!errors['email']}>
-            <FormLabel htmlFor='email'>Email</FormLabel>
+            <QueryFormLabel fontSizeSmall={10} fontSizeBig={undefined} htmlFor='email'>
+              Email
+            </QueryFormLabel>
             <Input
               id='email'
               {...register('email', {
@@ -91,10 +101,12 @@ export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((p
             </FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={!!errors['content']}>
-            <FormLabel htmlFor='content'>Things to say</FormLabel>
+            <QueryFormLabel fontSizeSmall={10} fontSizeBig={undefined} htmlFor='content'>
+              Things to say
+            </QueryFormLabel>
             <Textarea
               id='content'
-              style={{ height: '250px' }}
+              style={{ height: isBiggerThan1200 ? '250px' : '100px' }}
               size={'lg'}
               {...register('content', {
                 required: 'I think you may have a few things to say'
@@ -104,9 +116,14 @@ export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((p
               {!!errors['content'] && (errors['content']?.message as string)}
             </FormErrorMessage>
           </FormControl>
-          <Button isLoading={isSubmitting} type={'submit'} variant={'moonstone'}>
+          <QueryButton
+            fontSizeSmall={10}
+            fontSizeBig={undefined}
+            isLoading={isSubmitting}
+            type={'submit'}
+            variant={'moonstone'}>
             Submit
-          </Button>
+          </QueryButton>
         </form>
       </Box>
     </Section>

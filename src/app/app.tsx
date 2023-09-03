@@ -2,11 +2,12 @@ import React from 'react';
 import { Box, IconButton } from '@chakra-ui/react';
 import { About, Contact, Technologies, WelcomeBanner } from '@components';
 import { black, Footer, Header, moonstone } from '@layout';
-import { useIsInViewport } from '@hooks';
+import { useIsBiggerThan1200, useIsInViewport } from '@hooks';
 import { SectionEnum } from '@models';
 import { ChevronUpIcon } from '@chakra-ui/icons';
 
 export function App() {
+  const isBiggerThan1200 = useIsBiggerThan1200();
   const [preventFirstRenderOfHeader, setPreventFirstRenderOfHeade] = React.useState(false);
 
   const firstRenderTimeout = setTimeout(() => {
@@ -78,6 +79,7 @@ export function App() {
           aria-label={'top'}
           icon={<ChevronUpIcon />}
           variant={'outline'}
+          boxSize={isBiggerThan1200 ? undefined : 5}
           _hover={{
             backgroundColor: black,
             color: moonstone,
@@ -85,8 +87,8 @@ export function App() {
           }}
           sx={{
             position: 'fixed',
-            bottom: '50px',
-            right: '50px',
+            bottom: isBiggerThan1200 ? '50px' : '10px',
+            right: isBiggerThan1200 ? '50px' : '10px',
             borderRadius: '100px',
             backgroundColor: moonstone,
             color: black
