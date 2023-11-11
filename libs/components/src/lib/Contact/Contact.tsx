@@ -1,11 +1,12 @@
 import React from 'react';
-import { moonstone, Section, StyledTypeAnimation } from '@layout';
+import { Section, StyledTypeAnimation } from '@layout';
 import { Box, FormControl, FormErrorMessage, Input, Textarea } from '@chakra-ui/react';
 import { FieldValues, useForm } from 'react-hook-form';
 import QueryText from '../QueryText/QueryText';
-import { useIsBiggerThan1200 } from '@hooks';
+import { useDatabase, useIsBiggerThan1200 } from '@hooks';
 import QueryFormLabel from '../QueryFormLabel/QueryFormLabel';
 import QueryButton from '../QueryButton/QueryButton';
+import { addDoc, collection } from 'firebase/firestore';
 
 export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((props, ref) => {
   const isBiggerThan1200 = useIsBiggerThan1200();
@@ -14,10 +15,14 @@ export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((p
     register,
     formState: { errors, isSubmitting }
   } = useForm();
-  const submit = async (data: FieldValues) => {
-    console.log(data);
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+  const [db, collectionName] = useDatabase();
+  const submit = async (data: FieldValues) => {
+    await addDoc(collection(db, collectionName), {
+      email: data.email,
+      message: data.content,
+      name: data.name
+    });
   };
 
   return (

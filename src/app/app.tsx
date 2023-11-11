@@ -2,14 +2,16 @@ import React from 'react';
 import { Box, IconButton } from '@chakra-ui/react';
 import { About, Contact, Technologies, WelcomeBanner } from '@components';
 import { black, Footer, Header, moonstone } from '@layout';
-import { useIsBiggerThan1200, useIsInViewport } from '@hooks';
+import { useFirebase, useIsBiggerThan1200, useIsInViewport } from '@hooks';
 import { SectionEnum } from '@models';
 import { ChevronUpIcon } from '@chakra-ui/icons';
+import { FirebaseContext } from '@context';
 
 export function App() {
   const isBiggerThan1200 = useIsBiggerThan1200();
   const [preventFirstRenderOfHeader, setPreventFirstRenderOfHeade] = React.useState(false);
 
+  const app = useFirebase();
   const firstRenderTimeout = setTimeout(() => {
     setPreventFirstRenderOfHeade(true);
     clearTimeout(firstRenderTimeout);
@@ -65,7 +67,9 @@ export function App() {
         <WelcomeBanner ref={welcomeRef as React.MutableRefObject<HTMLDivElement>} />
         <About ref={aboutRef as React.MutableRefObject<HTMLDivElement>} />
         <Technologies ref={technologiesRef as React.MutableRefObject<HTMLDivElement>} />
-        <Contact ref={contactRef as React.MutableRefObject<HTMLDivElement>} />
+        <FirebaseContext.Provider value={{ loaded: true, app }}>
+          <Contact ref={contactRef as React.MutableRefObject<HTMLDivElement>} />
+        </FirebaseContext.Provider>
       </Box>
       <Footer
         onElementClick={[
