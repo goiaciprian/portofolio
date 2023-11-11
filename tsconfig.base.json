@@ -29,6 +29,9 @@
       ],
       "@models": [
         "libs/models/src/index.ts"
+      ],
+      "@context": [
+        "libs/context/src/index.ts"
       ]
     }
   },
