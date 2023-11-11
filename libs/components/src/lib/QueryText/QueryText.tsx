@@ -8,7 +8,6 @@ export interface QueryTest extends Omit<TextProps, 'fontSize'> {
 
 export function QueryText(props: QueryTest) {
   const isBiggerThan1200 = useIsBiggerThan1200();
-  console.log(isBiggerThan1200);
   const { children, fontSizeSmall, fontSizeBig, ...rest } = props;
 
   return (
