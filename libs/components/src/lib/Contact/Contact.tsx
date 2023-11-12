@@ -3,13 +3,14 @@ import { Section, StyledTypeAnimation } from '@layout';
 import { Box, FormControl, FormErrorMessage, Input, Textarea } from '@chakra-ui/react';
 import { FieldValues, useForm } from 'react-hook-form';
 import QueryText from '../QueryText/QueryText';
-import { useDatabase, useIsBiggerThan1200 } from '@hooks';
+import { useDatabase, useIsBiggerThan1200, useToast } from '@hooks';
 import QueryFormLabel from '../QueryFormLabel/QueryFormLabel';
 import QueryButton from '../QueryButton/QueryButton';
 import { addDoc, collection } from 'firebase/firestore';
 
 export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((props, ref) => {
   const isBiggerThan1200 = useIsBiggerThan1200();
+  const { toastError, toastSuccess } = useToast();
   const {
     handleSubmit,
     register,
@@ -22,7 +23,9 @@ export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((p
       email: data.email,
       message: data.content,
       name: data.name
-    }).catch((e) => console.log(e));
+    })
+      .then(() => toastSuccess('Thanks for contacting me'))
+      .catch(() => toastError("Thanks for trying to contact me, but it didn't worked"));
   };
 
   return (
