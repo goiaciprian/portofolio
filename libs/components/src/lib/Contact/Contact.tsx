@@ -7,6 +7,8 @@ import { useDatabase, useIsBiggerThan1200 } from '@hooks';
 import QueryFormLabel from '../QueryFormLabel/QueryFormLabel';
 import QueryButton from '../QueryButton/QueryButton';
 import { addDoc, collection } from 'firebase/firestore';
+import { useIsBiggerThan1200 } from '@hooks';
+        
 
 export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((props, ref) => {
   const isBiggerThan1200 = useIsBiggerThan1200();
