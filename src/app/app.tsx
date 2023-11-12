@@ -38,6 +38,8 @@ export function App() {
     threshold: 0.7
   });
 
+  console.log(import.meta.env);
+
   const activeSection = () => {
     if (isOnAbout) {
       return SectionEnum.About;

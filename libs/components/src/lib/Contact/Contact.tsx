@@ -22,7 +22,7 @@ export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((p
       email: data.email,
       message: data.content,
       name: data.name
-    });
+    }).catch((e) => console.log(e));
   };
 
   return (
@@ -98,7 +98,11 @@ export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((p
             <Input
               id='email'
               {...register('email', {
-                required: 'The email is required'
+                required: 'The email is required',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'This is not a valid email address'
+                }
               })}
             />
             <FormErrorMessage>
