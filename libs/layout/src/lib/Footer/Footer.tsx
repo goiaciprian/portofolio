@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Text } from '@chakra-ui/react';
 import Section from '../Section/Section';
 import { LinkText } from '../Header/Header';
@@ -9,13 +9,31 @@ import { TbBrandVercel } from 'react-icons/tb';
 import { Icon } from '@chakra-ui/icons';
 import { useIsBiggerThan1200 } from '@hooks';
 import { QueryText } from '@components';
+import { AnalyticsContext } from '@context';
 
 export function Footer({ onElementClick }: { onElementClick: (() => void | undefined)[] }) {
   const isBiggerThan1200 = useIsBiggerThan1200();
   const [hoveredSection, setHoveredSection] = React.useState<SectionEnum | null>(null);
 
+  const { amplitude } = useContext(AnalyticsContext);
+
   function sendToVercel() {
+    amplitude?.trackVercel();
     window.open('https://vercel.com', '_blank', 'noopener,noreferrer');
+  }
+
+  function sendToGithub() {
+    amplitude?.trackVercel();
+    window.open('https://github.com/goiaciprian', '_blank', 'noopener,noreferrer');
+  }
+
+  function sendToLinkedin() {
+    amplitude?.trackVercel();
+    window.open(
+      'https://www.linkedin.com/in/ciprian-goia-951537197/',
+      '_blank',
+      'noopener,noreferrer'
+    );
   }
 
   return (
@@ -60,8 +78,7 @@ export function Footer({ onElementClick }: { onElementClick: (() => void | undef
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: '5vh' }}>
           <Text
             as='a'
-            target={'_blank'}
-            href='https://github.com/goiaciprian'
+            onClick={sendToGithub}
             sx={{ cursor: 'pointer' }}
             _hover={{
               filter: `drop-shadow(0 0 15px ${moonstone})`
@@ -70,8 +87,7 @@ export function Footer({ onElementClick }: { onElementClick: (() => void | undef
           </Text>
           <Text
             as='a'
-            target={'_blank'}
-            href='https://www.linkedin.com/in/ciprian-goia-951537197/'
+            onClick={sendToLinkedin}
             sx={{ cursor: 'pointer' }}
             _hover={{
               filter: `drop-shadow(0 0 15px ${moonstone})`

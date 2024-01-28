@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, IconButton } from '@chakra-ui/react';
 import { About, Contact, Technologies, WelcomeBanner } from '@components';
 import { black, Footer, Header, moonstone } from '@layout';
-import { useFirebase, useIsBiggerThan1200, useIsInViewport } from '@hooks';
+import { useAnalytics, useFirebase, useIsBiggerThan1200, useIsInViewport } from '@hooks';
 import { SectionEnum } from '@models';
 import { ChevronUpIcon } from '@chakra-ui/icons';
-import { FirebaseContext } from '@context';
+import { AnalyticsContext, FirebaseContext } from '@context';
 
 export function App() {
   const isBiggerThan1200 = useIsBiggerThan1200();
   const [preventFirstRenderOfHeader, setPreventFirstRenderOfHeade] = React.useState(false);
 
   const app = useFirebase();
+  const analytics = useAnalytics();
+
+  const { amplitude } = useContext(AnalyticsContext);
+
   const firstRenderTimeout = setTimeout(() => {
     setPreventFirstRenderOfHeade(true);
     clearTimeout(firstRenderTimeout);
@@ -52,56 +56,79 @@ export function App() {
   };
 
   return (
-    <Box>
-      {!isOnWelcome && preventFirstRenderOfHeader && (
-        <Header
-          activeSection={activeSection()}
+    <AnalyticsContext.Provider value={analytics}>
+      <Box>
+        {!isOnWelcome && preventFirstRenderOfHeader && (
+          <Header
+            activeSection={activeSection()}
+            onElementClick={[
+              () => {
+                amplitude?.trackQuickAboutMe();
+                aboutRef.current?.scrollIntoView({ behavior: 'smooth' });
+              },
+              () => {
+                amplitude?.trackQuickProjects();
+                technologiesRef.current?.scrollIntoView({ behavior: 'smooth' });
+              },
+              () => {
+                amplitude?.trackQuickContact();
+                contactRef.current?.scrollIntoView({ behavior: 'smooth' });
+              }
+            ]}
+          />
+        )}
+        <Box>
+          <WelcomeBanner ref={welcomeRef as React.MutableRefObject<HTMLDivElement>} />
+          <About ref={aboutRef as React.MutableRefObject<HTMLDivElement>} />
+          <Technologies ref={technologiesRef as React.MutableRefObject<HTMLDivElement>} />
+          <FirebaseContext.Provider value={{ loaded: true, app }}>
+            <Contact ref={contactRef as React.MutableRefObject<HTMLDivElement>} />
+          </FirebaseContext.Provider>
+        </Box>
+        <Footer
           onElementClick={[
-            () => aboutRef.current?.scrollIntoView({ behavior: 'smooth' }),
-            () => technologiesRef.current?.scrollIntoView({ behavior: 'smooth' }),
-            () => contactRef.current?.scrollIntoView({ behavior: 'smooth' })
+            () => {
+              amplitude?.trackQuickAboutMe();
+              aboutRef.current?.scrollIntoView({ behavior: 'smooth' });
+            },
+            () => {
+              amplitude?.trackQuickProjects();
+              technologiesRef.current?.scrollIntoView({ behavior: 'smooth' });
+            },
+            () => {
+              amplitude?.trackQuickContact();
+              contactRef.current?.scrollIntoView({ behavior: 'smooth' });
+            }
           ]}
         />
-      )}
-      <Box>
-        <WelcomeBanner ref={welcomeRef as React.MutableRefObject<HTMLDivElement>} />
-        <About ref={aboutRef as React.MutableRefObject<HTMLDivElement>} />
-        <Technologies ref={technologiesRef as React.MutableRefObject<HTMLDivElement>} />
-        <FirebaseContext.Provider value={{ loaded: true, app }}>
-          <Contact ref={contactRef as React.MutableRefObject<HTMLDivElement>} />
-        </FirebaseContext.Provider>
+        {!isOnWelcome && preventFirstRenderOfHeader && (
+          <IconButton
+            aria-label={'top'}
+            icon={<ChevronUpIcon />}
+            variant={'outline'}
+            boxSize={isBiggerThan1200 ? undefined : 5}
+            _hover={{
+              backgroundColor: black,
+              color: moonstone,
+              boxShadow: `0 0 25px 2px ${moonstone}`
+            }}
+            sx={{
+              position: 'fixed',
+              bottom: isBiggerThan1200 ? '50px' : '10px',
+              right: isBiggerThan1200 ? '50px' : '10px',
+              borderRadius: '100px',
+              backgroundColor: moonstone,
+              color: black
+            }}
+            size={'lg'}
+            onClick={() => {
+              amplitude?.trackTop();
+              welcomeRef.current?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          />
+        )}
       </Box>
-      <Footer
-        onElementClick={[
-          () => aboutRef.current?.scrollIntoView({ behavior: 'smooth' }),
-          () => technologiesRef.current?.scrollIntoView({ behavior: 'smooth' }),
-          () => contactRef.current?.scrollIntoView({ behavior: 'smooth' })
-        ]}
-      />
-      {!isOnWelcome && preventFirstRenderOfHeader && (
-        <IconButton
-          aria-label={'top'}
-          icon={<ChevronUpIcon />}
-          variant={'outline'}
-          boxSize={isBiggerThan1200 ? undefined : 5}
-          _hover={{
-            backgroundColor: black,
-            color: moonstone,
-            boxShadow: `0 0 25px 2px ${moonstone}`
-          }}
-          sx={{
-            position: 'fixed',
-            bottom: isBiggerThan1200 ? '50px' : '10px',
-            right: isBiggerThan1200 ? '50px' : '10px',
-            borderRadius: '100px',
-            backgroundColor: moonstone,
-            color: black
-          }}
-          size={'lg'}
-          onClick={() => welcomeRef.current?.scrollIntoView({ behavior: 'smooth' })}
-        />
-      )}
-    </Box>
+    </AnalyticsContext.Provider>
   );
 }
 

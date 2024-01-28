@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
-import React, { MutableRefObject } from 'react';
+import React, { MutableRefObject, useContext } from 'react';
 import { moonstone, Section } from '@layout';
 import { Box } from '@chakra-ui/react';
 import MoreModal from '../MoreModal/MoreModal';
 import QueryText from '../QueryText/QueryText';
 import QueryButton from '../QueryButton/QueryButton';
+import { AnalyticsContext } from '@context';
 
 const StyledAbout = styled.div`
   display: flex;
@@ -27,6 +28,7 @@ const moreAboutMe = [
 ];
 export const About = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((props, ref) => {
   const modalRef = React.useRef<{ onOpen: () => void } | undefined>();
+  const { amplitude } = useContext(AnalyticsContext);
   return (
     <>
       <Section ref={ref} scrollMarginTop={'10vh'}>
@@ -51,7 +53,10 @@ export const About = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((pro
               alignSelf: 'center',
               width: '100%'
             }}
-            onClick={() => modalRef.current?.onOpen()}>
+            onClick={() => {
+              amplitude?.trackMoreAboutMe();
+              modalRef.current?.onOpen();
+            }}>
             More about me
           </QueryButton>
         </StyledAbout>

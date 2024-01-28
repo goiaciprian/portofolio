@@ -5,7 +5,7 @@ import { moonstone } from '../theme';
 
 export interface HeaderProps {
   activeSection?: SectionEnum;
-  onElementClick: (() => unknown)[];
+  onElementClick: (() => any)[];
 }
 
 const StyledHeader = styled.div`
