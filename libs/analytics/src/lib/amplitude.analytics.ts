@@ -15,7 +15,9 @@ enum AMPLITUDE_EVENTS {
 
 export class AmplitudeIntegration {
   public constructor() {
+    //@ts-ignore
     amplitude.init(import.meta.env.VITE_AMPLITUDE_KEY);
+    //@ts-ignore
     amplitude.setGroup('environment', import.meta.env.VITE_ENV);
   }
 

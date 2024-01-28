@@ -18,6 +18,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@analytics": [
+        "libs/analytics/src/index.ts"
+      ],
       "@components": [
         "libs/components/src/index.ts"
       ],
