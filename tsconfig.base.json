@@ -18,8 +18,14 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@analytics": [
+        "libs/analytics/src/index.ts"
+      ],
       "@components": [
         "libs/components/src/index.ts"
+      ],
+      "@context": [
+        "libs/context/src/index.ts"
       ],
       "@hooks": [
         "libs/hooks/src/index.ts"
@@ -30,8 +36,8 @@
       "@models": [
         "libs/models/src/index.ts"
       ],
-      "@context": [
-        "libs/context/src/index.ts"
+      "analytics": [
+        "libs/analytics/src/index.ts"
       ]
     }
   },

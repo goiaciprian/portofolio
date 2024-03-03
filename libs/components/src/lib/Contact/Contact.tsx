@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Section, StyledTypeAnimation } from '@layout';
 import { Box, FormControl, FormErrorMessage, Input, Textarea } from '@chakra-ui/react';
 import { FieldValues, useForm } from 'react-hook-form';
@@ -7,6 +7,7 @@ import { useDatabase, useIsBiggerThan1200, useToast } from '@hooks';
 import QueryFormLabel from '../QueryFormLabel/QueryFormLabel';
 import QueryButton from '../QueryButton/QueryButton';
 import { addDoc, collection } from 'firebase/firestore';
+import { AnalyticsContext } from '@context';
 
 export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((props, ref) => {
   const isBiggerThan1200 = useIsBiggerThan1200();
@@ -18,7 +19,9 @@ export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((p
   } = useForm();
 
   const [db, collectionName] = useDatabase();
+  const { amplitude } = useContext(AnalyticsContext);
   const submit = async (data: FieldValues) => {
+    amplitude?.trackContactMe();
     await addDoc(collection(db, collectionName), {
       email: data.email,
       message: data.content,
