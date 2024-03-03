@@ -1,4 +1,4 @@
-import { AmplitudeIntegration } from 'analytics';
+import { AmplitudeIntegration } from '@analytics';
 import { AnalyticsContext } from '@context';
 
 export const useAnalytics = (): AnalyticsContext => {

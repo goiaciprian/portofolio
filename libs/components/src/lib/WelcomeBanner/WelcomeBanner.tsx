@@ -28,7 +28,7 @@ export const WelcomeBanner = React.forwardRef<HTMLDivElement, NonNullable<unknow
               <StyledTypeAnimation
                 italic
                 weight={400}
-                sequence={['Frontend', 1000, 'Backend', 1000, 'DevOps', 1000]}
+                sequence={['Frontend', 1000, 'Backend', 1000]}
                 speed={25}
                 repeat={Infinity}
               />
