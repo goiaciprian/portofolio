@@ -8,8 +8,14 @@ import QueryFormLabel from '../QueryFormLabel/QueryFormLabel';
 import QueryButton from '../QueryButton/QueryButton';
 import { addDoc, collection } from 'firebase/firestore';
 import { AnalyticsContext } from '@context';
+import { Resend } from 'resend';
+import { ContactEmail } from '@emails';
 
 export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((props, ref) => {
+  const resend = new Resend(import.meta.env.VITE_RESEND_EMAIL);
+  const fromEmail = import.meta.env.VITE_FROM_EMAIL;
+  const toEmail = import.meta.env.VITE_TO_EMAIL;
+
   const isBiggerThan1200 = useIsBiggerThan1200();
   const { toastError, toastSuccess } = useToast();
   const {
@@ -29,6 +35,17 @@ export const Contact = React.forwardRef<HTMLDivElement, NonNullable<unknown>>((p
     })
       .then(() => toastSuccess('Thanks for contacting me'))
       .catch(() => toastError("Thanks for trying to contact me, but it didn't worked"));
+
+    await resend.emails
+      .send({
+        from: fromEmail,
+        to: toEmail,
+        subject: `[PORTOFOLIO CONTACT] Received from ${data.name}`,
+        react: <ContactEmail from={data.email} name={data.name} content={data.contect} />
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

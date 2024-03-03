@@ -1,5 +1,5 @@
 import React from 'react';
-import { AmplitudeIntegration } from 'analytics';
+import { AmplitudeIntegration } from '@analytics';
 
 export type AnalyticsContext =
   | {

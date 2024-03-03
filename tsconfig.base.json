@@ -36,8 +36,8 @@
       "@models": [
         "libs/models/src/index.ts"
       ],
-      "analytics": [
-        "libs/analytics/src/index.ts"
+      "@emails": [
+        "libs/emails/src/index.ts"
       ]
     }
   },
